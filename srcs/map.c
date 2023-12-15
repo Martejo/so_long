@@ -53,51 +53,48 @@ void	check_map(t_data *data)
 		ft_error("Error\nNeed one Player, exit and some collectables.", data);
 }
 
-bool	backtracking(t_data *data, int *exit, int *stuff, int x, int y)
+bool	backtracking(t_backtrack *data, int x, int y)
 {
-	char	tmp;
 
-	printf("stuff = %d exit = %d\n", *stuff, *exit);
-	if (*stuff == data->content.count_collect && *exit == 1)
+	if (data->stuff == data->count_collect && data->exit == 1)
 		return (true);
-	if (data->map[x][y] == '1')
+	if (data->cpy_map[x][y] == '1')
 		return (false);
-	if (data->map[x][y] == 'C')
-		(*stuff)++;
-	if (data->map[x][y] == 'E')
-		(*exit)++;
-	tmp = data->map[x][y];
-	// for(int i = 0; i < data->height; i++)
-	// 	printf("%s\n", data->map[i]);
-	// printf("\n");
-	data->map[x][y] = '1'; //Marquer la position
-	if (backtracking(data, exit, stuff, x - 1, y))
+	if (data->cpy_map[x][y] == 'C')
+		data->stuff++;
+	if (data->cpy_map[x][y] == 'E')
+		data->exit++;
+	data->cpy_map[x][y] = '1'; //Marquer la position
+	if (backtracking(data, x - 1, y))
 		return (true);
-	if (backtracking(data, exit, stuff, x, y - 1))
+	if (backtracking(data, x, y - 1))
 		return (true);
-	if (backtracking(data, exit, stuff, x + 1, y))
+	if (backtracking(data, x + 1, y))
 		return (true);
-	if (backtracking(data, exit, stuff, x, y + 1))
-	{
+	if (backtracking(data, x, y + 1))
 		return (true);
-	}
-	write(1, "A\n", 2);
-	data->map[x][y] = tmp;
+	// data->map[x][y] = tmp;
+	// write(1, "A\n", 2);
+
 	return (false);
 }
 
-void	free_map(char **map)
+void	init_backtracking(t_data *data)
 {
-	int	i;
-
-	i = 0;
-	while (map[i])
+	t_backtrack data_backtrack;
+	
+	if (!cpy_map(data, &data_backtrack))
 	{
-		free(map[i]);
-		map[i] = NULL;
-		i++;
+		free_map(data_backtrack.cpy_map);
+		ft_error("Error Malloc\n", data);
 	}
-	free(map);
-	map = NULL;
+	data_backtrack.exit = 0;
+	data_backtrack.stuff = 0;
+	data_backtrack.count_collect = data->content.count_collect;
+	if (!backtracking(&data_backtrack, data->player.col_player, data->player.line_player))
+	{
+		free_map(data_backtrack.cpy_map);
+		ft_error("Error\nThe map must be solvable.", data);
+	}
+	free_map(data_backtrack.cpy_map);
 }
-

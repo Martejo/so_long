@@ -1,12 +1,13 @@
-MLX_FLAGS = -Lmlx -lmlx -L/usr/lib/x11 -lXext -lx11
+MLX_FLAGS = -L minilibx-linux -lmlx_Linux -lmlx -lXext -lX11
 
-INCLUDES_MXL = -I/usr/include -Imlx
+INCLUDES = -I include -I libft/
 
 SRCS = srcs/error.c \
 		srcs/map.c \
 		srcs/settings.c \
 		srcs/check_map.c \
 		srcs/so_long.c \
+		srcs/utils.c \
 
 
 OBJS = $(SRCS:.c=.o)
@@ -20,10 +21,10 @@ CFLAGS = -Wall -Wextra -Werror
 all : $(NAME)
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) -Iinclude -Ilibft $(OBJS) -o $(NAME) -Llibft -lft
+	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(NAME) $(MLX_FLAGS) -Llibft -lft
 
 %.o: %.c include/so_long.h libft/libft.h
-	@$(CC) $(CFLAGS) -Iinclude -Ilibft -c $< -o $@
+	@$(CC) $(CFLAGS) -Iinclude -Ilibft $(INCLUDES_MXL) -c $< -o $@
 
 clean:
 	rm $(OBJS)
