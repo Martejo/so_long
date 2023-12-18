@@ -8,6 +8,9 @@ SRCS = srcs/error.c \
 		srcs/check_map.c \
 		srcs/so_long.c \
 		srcs/utils.c \
+		srcs/image_utils.c \
+		srcs/window_utils.c \
+		srcs/draw_game.c \
 
 
 OBJS = $(SRCS:.c=.o)
@@ -21,10 +24,10 @@ CFLAGS = -Wall -Wextra -Werror
 all : $(NAME)
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(INCLUDES) $(OBJS) -o $(NAME) $(MLX_FLAGS) -Llibft -lft
+	@$(CC) $(CFLAGS) -g3 $(INCLUDES) $(OBJS) -o $(NAME) $(MLX_FLAGS) -Llibft -lft
 
 %.o: %.c include/so_long.h libft/libft.h
-	@$(CC) $(CFLAGS) -Iinclude -Ilibft $(INCLUDES_MXL) -c $< -o $@
+	@$(CC) $(CFLAGS) -g3 -Iinclude -Ilibft $(INCLUDES_MXL) -c $< -o $@
 
 clean:
 	rm $(OBJS)

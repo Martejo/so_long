@@ -53,31 +53,30 @@ void	check_map(t_data *data)
 		ft_error("Error\nNeed one Player, exit and some collectables.", data);
 }
 
-bool	backtracking(t_backtrack *data, int x, int y)
+bool	backtracking(t_backtrack *data, int col, int line)
 {
 
 	if (data->stuff == data->count_collect && data->exit == 1)
 		return (true);
-	if (data->cpy_map[x][y] == '1')
+	if (data->cpy_map[line][col] == '1')
 		return (false);
-	if (data->cpy_map[x][y] == 'C')
-		data->stuff++;
-	if (data->cpy_map[x][y] == 'E')
-		data->exit++;
-	data->cpy_map[x][y] = '1'; //Marquer la position
-	if (backtracking(data, x - 1, y))
+	if (data->cpy_map[line][col] == 'C')
+		data->stuff += 1;
+	if (data->cpy_map[line][col] == 'E')
+		data->exit += 1;
+	data->cpy_map[line][col] = '1'; //Marquer la position
+	if (backtracking(data, col - 1, line))
 		return (true);
-	if (backtracking(data, x, y - 1))
+	if (backtracking(data, col, line - 1))
 		return (true);
-	if (backtracking(data, x + 1, y))
+	if (backtracking(data, col + 1, line))
 		return (true);
-	if (backtracking(data, x, y + 1))
+	if (backtracking(data, col, line + 1))
 		return (true);
-	// data->map[x][y] = tmp;
-	// write(1, "A\n", 2);
-
 	return (false);
 }
+
+
 
 void	init_backtracking(t_data *data)
 {

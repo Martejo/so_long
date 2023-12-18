@@ -16,6 +16,12 @@
 
 //Contient les chrs de la map
 
+enum {
+	BORDER = 0,
+	WALL = 1,
+	PLAYER = 2,
+	BG = 3,
+};
 
 typedef struct s_content
 {
@@ -41,6 +47,8 @@ typedef struct s_backtrack
 	int		exit;
 	int		stuff;
 	int		count_collect;
+	int		width;
+	int		height;
 
 }	t_backtrack;
 
@@ -54,12 +62,37 @@ typedef struct s_data
 
 }	t_data;
 
+typedef struct s_vector
+{
+	int	width;
+	int	height;
+}	t_vector;
+
+typedef struct s_window
+{
+	void	*reference;
+	t_vector	size;
+}	t_window;
+
+typedef struct s_image
+{
+	void		*img_ptr;
+	char		*addr;
+	t_vector	size;
+	int			bpp; //bits_per_pixel;
+	int			endian;
+	int			line_len;
+}		t_image;
+
 typedef struct s_mlx
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
-	void	*texture[5];
+	void		*mlx_ptr;
+	t_window	window;
+	t_data		data;
+	t_image		base_img;
+	t_image		sprites[3];
 }	t_mlx;
+
 
 /*****Settings*****/
 void	set_content(t_content *content);
@@ -71,7 +104,7 @@ void	ft_error(char *msg, t_data *data);
 char	*get_map(int fd);
 void	set_map(t_data *data, char *file);
 void	check_map(t_data *data);
-bool	backtracking(t_backtrack *data, int x, int y);
+//bool	backtracking(t_backtrack *data, int x, int y);
 void	init_backtracking(t_data *data);
 //bool backtracking(t_data *data, int exit, int stuff, int x, int y, bool **visited);
 
@@ -83,5 +116,22 @@ void	check_content(t_data *data);
 /*****Utils*****/
 int	cpy_map(t_data *data, t_backtrack *data2);
 void	free_map(char **map);
+
+/******Window_utils*****/
+void	destroy_image(t_mlx	*mlx_data);
+void	new_window(t_mlx *mlx_data, char *str);
+
+/******Image_utils*****/
+void	put_img_to_img(t_image dest, t_image src, int width, int height);
+unsigned int	get_pixel_img(t_image image, int width, int height);
+void	put_pixel_img(t_image image, int width, int height, int color);
+void	new_img(int width, int height, t_mlx *mlx_data);
+void	new_file_img(char *path, t_mlx *mlx_data, int sprite);
+
+void	draw_border(t_mlx *mlx_data);
+void	draw_wall(t_mlx *mlx_data);
+void	draw_player(t_mlx *mlx_data);
+
+
 
 #endif
