@@ -11,6 +11,7 @@ SRCS = srcs/error.c \
 		srcs/image_utils.c \
 		srcs/window_utils.c \
 		srcs/draw_game.c \
+		srcs/gameplay.c \
 
 
 OBJS = $(SRCS:.c=.o)
@@ -26,7 +27,7 @@ all : $(NAME)
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) -g3 $(INCLUDES) $(OBJS) -o $(NAME) $(MLX_FLAGS) -Llibft -lft
 
-%.o: %.c include/so_long.h libft/libft.h
+%.o: %.c include/*.h libft/libft.h
 	@$(CC) $(CFLAGS) -g3 -Iinclude -Ilibft $(INCLUDES_MXL) -c $< -o $@
 
 clean:

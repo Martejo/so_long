@@ -46,12 +46,12 @@ void	put_img_to_img(t_image dest, t_image src, int width, int height)
 	int	j;
 
 	i = 0;
-	while (i < src.size.width)
+	while (i < src.size.height)
 	{
 		j = 0;
-		while (j < src.size.height)
+		while (j < src.size.width)
 		{
-			put_pixel_img(dest, width + i, height + j, get_pixel_img(src, i, j));
+			put_pixel_img(dest, width + j, height + i, get_pixel_img(src, j, i));
 			j++;
 		}
 		i++;

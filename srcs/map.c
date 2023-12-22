@@ -90,7 +90,7 @@ void	init_backtracking(t_data *data)
 	data_backtrack.exit = 0;
 	data_backtrack.stuff = 0;
 	data_backtrack.count_collect = data->content.count_collect;
-	if (!backtracking(&data_backtrack, data->player.col_player, data->player.line_player))
+	if (!backtracking(&data_backtrack, data->coord_player.coord_p.width, data->coord_player.coord_p.height))
 	{
 		free_map(data_backtrack.cpy_map);
 		ft_error("Error\nThe map must be solvable.", data);

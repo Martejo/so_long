@@ -27,8 +27,8 @@ void	check_content(t_data *data)
 			else if (data->map[height][width] == data->content.player)
 			{
 				data->content.count_player += 1;
-				data->player.col_player = width;
-				data->player.line_player = height; 
+				data->coord_player.coord_p.width = width;
+				data->coord_player.coord_p.height = height; 
 			}
 			if (!ft_iscontent(data, data->map[height][width]))
 				ft_error("Error\nUnknown symbol.", data);

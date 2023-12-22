@@ -1,6 +1,7 @@
 #ifndef SO_LONG_H
 #define SO_LONG_H
 
+# include "struct.h"
 # include "../libft/libft.h"
 # include "../minilibx-linux/mlx.h"
 # include "X11/keysym.h"
@@ -13,86 +14,6 @@
 # include <string.h>
 # include <errno.h>
 # include <stdbool.h>
-
-//Contient les chrs de la map
-
-enum {
-	BORDER = 0,
-	WALL = 1,
-	PLAYER = 2,
-	BG = 3,
-};
-
-typedef struct s_content
-{
-	char	exit;
-	char	collect;
-	char	player;
-	char	wall;
-	char	empty;
-	int		count_player;
-	int		count_exit;
-	int		count_collect;
-}	t_content;
-
-typedef struct s_pos_player
-{
-	int	col_player; //width
-	int	line_player; //height
-}	t_pos_player;
-
-typedef struct s_backtrack
-{
-	char	**cpy_map;
-	int		exit;
-	int		stuff;
-	int		count_collect;
-	int		width;
-	int		height;
-
-}	t_backtrack;
-
-typedef struct s_data
-{
-	t_content	content;
-	t_pos_player	player;
-	char	**map;
-	int		height; //hauteur
-	int		width; //largeur
-
-}	t_data;
-
-typedef struct s_vector
-{
-	int	width;
-	int	height;
-}	t_vector;
-
-typedef struct s_window
-{
-	void	*reference;
-	t_vector	size;
-}	t_window;
-
-typedef struct s_image
-{
-	void		*img_ptr;
-	char		*addr;
-	t_vector	size;
-	int			bpp; //bits_per_pixel;
-	int			endian;
-	int			line_len;
-}		t_image;
-
-typedef struct s_mlx
-{
-	void		*mlx_ptr;
-	t_window	window;
-	t_data		data;
-	t_image		base_img;
-	t_image		sprites[3];
-}	t_mlx;
-
 
 /*****Settings*****/
 void	set_content(t_content *content);
@@ -131,7 +52,9 @@ void	new_file_img(char *path, t_mlx *mlx_data, int sprite);
 void	draw_border(t_mlx *mlx_data);
 void	draw_wall(t_mlx *mlx_data);
 void	draw_player(t_mlx *mlx_data);
-
+void	draw_base_img(t_mlx *mlx_data);
+int	ft_input(int keysim, t_mlx *mlx_data);
+int	on_destroy(t_mlx *data);
 
 
 #endif
